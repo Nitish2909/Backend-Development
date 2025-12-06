@@ -74,6 +74,195 @@ Ecosystem: Today, Node.js powers millions of websites and applications, with a v
 Community: Node.js remains open-source and community-driven, with an active community that continuously contributes to its growth and development.
 <br>
 Node.js has transformed the way JavaScript is used, making it a dominant force in backend development and enabling JavaScript developers to work on both client and server sides with a unified language.
+<br>
+
+# Asynchronous and non blocking I/O model:
+<br>
+<b>Node.js works on these two concepts :</b>
+<br>
+Asynchronous model = Nodejs takes multiple request and doesn't wait for one to finish before starting another. It uses a single-threaded event loop to manage multiple concurrent tasks.
+<br><br>
+Non-blocking I/O = Instead of waiting for I/O operations (like file reads, database queries, or network requests) to complete, Node.js initiates the operation and continues executing other code. When the operation finishes, a callback (or a Promise) handles the result. This makes Node.js highly efficient and scalable, especially for I/O-heavy applications.
+<br>
+
+# What is node_modules:
+node_modules is a folder where all the dependencies (packages or modules) required by our project are stored.
+
+<br>
+# package-lock.json
+<br>
+It provides a detailed snapshot of the entire dependency tree, including the specific versions of each installed package and their sub-dependencies. The main purpose of package-lock.json is to ensure consistent installs across different environments by "locking" the dependency versions. It is useful for the local system on which we are making our node application.
+
+# Modules and Its types:
+<br>
+<B>Module:</B>
+<br>
+A module in Node.js is a reusable block or self contined block  of code that performs a specific task and can be exported and imported into other files and apllications.In Nodejs every file is treated as a separate module.
+<br>
+
+<b>Types of Modules in Nodejs:</b>
+<br>
+<b>1.Core Module</b> => Core Module is also known as Built-in Module.Built-in Modules is provided by Nodejs.No need to install however you need to import Built-in modules in your file or application.
+<br>
+Some important core module in Nodejs are:
+
+```bash
+1. fs  => file system module for reading ,writing and manipulating File and Directories.
+
+2. http => Provide HTTP server and client functionality to create web Servers and make http requests.
+
+3. https => Similar to http ,but Supports secure HTTP over TLS/SSL. 
+
+4. os => provide operating sysytem information.
+
+5. path => Handling and Transforming file Paths.
+
+6. events => for Event Handling.
+
+7.Streams => Handle Streaming data(audio,video and large files)
+
+8. url => Parse and work with URLs.
+
+9. dns => Domain name system operations (resolve domains).
+
+10. net => Create TCP or socket servers.
+
+11. child_process => Run system commands or create subprocesses.
+
+These modules are built into Node.js and can be imported using:
+
+syntax:
+const http = require("<module_name>");
+ example:
+const http = require("http");
+
+
+```
+<br>
+<b>Example of core module using http With explanation </b>
+
+```bash
+
+const http = require("http") 
+const server = http.createServer((req,res)=>{                   
+    res.write("<h1>This is Nitish Kumar from nodejs Server</h1>")
+    res.end();
+});
+
+server.listen(3000);
+
+
+//Explanation of this code:
+
+//server is created by "http" module.
+
+//"require" is a built-in function in Node.js used to import modules(files, built-in  libraries, or npm packages) into your program.http is core module.
+
+//createServer() creates a new web server.
+//It takes a callback function with two arguments:
+//req → request coming from the client (browser)
+//res → response we send back to the client
+
+//res.write() sends HTML content to the browser
+//res.end() finishes the response (every response must end)
+
+//server.listen(3000) This tells the server to listen on port 3000.
+
+```
+<br>
+<b>2.Local Module(Usre defined module):</b>
+<br>
+A local module is a user-defined module stored as a JavaScript file in the project. It is created by the developer and imported using require("./filename"). Local modules help organize code and make it reusable.
+<br>
+<b>Example:</b>
+
+```bash
+
+Step 1: Create a file -> math.js
+
+function add(a, b) {
+  return a + b;
+}
+module.exports = add;
+
+Step 2: Use (import) local module in another file
+
+const add = require("./math");
+
+console.log(add(5, 3));     // Output: 8
+
+```
+<br>
+<b>3. Third Party Module:</b>
+<br>
+A third-party module is a package created by developers (not built into Node.js) and published on npm (Node Package Manager).
+You must install these modules before using them.They add extra features that are not available in core modules.
+<br>
+Some Third Party Module:
+
+```bash
+
+1. Express => Used to build web servers and APIs easily.
+ 
+installation:
+
+npm install express
+
+import:
+
+const express = require("express");
+
+2. Mongoose => Used to connect Node.js with MongoDB.
+
+3.Nodemon => Automatically restarts server when code changes.
+
+installation:
+npm install -g nodemon
+
+4.JWT (jsonwebtoken) => Creates and verifies tokens for authentication.
+
+installation:
+npm install jsonwebtoken
+
+5.Bcrypt => Encrypts passwords.
+
+npm install bcrypt
+
+```
+# Nodemon:
+<br>
+Nodemon is a third-party tool for Node.js that automatically restarts your server whenever you make changes to your code.
+<br>
+Without Nodemon:
+<br>
+You must stop and restart your server manually every time.
+<br>
+With Nodemon:
+<br>
+It restarts automatically — no manual restart needed.
+<br>
+
+```bash
+npm install -g nodemon   //install gloally
+
+npm install nodemon --save-dev   //locally
+
+
+//how to use or run :
+
+nodemon filename
+
+example:
+nodemon server.js
+
+```
+
+
+
+
+
+
+
 
 
 
