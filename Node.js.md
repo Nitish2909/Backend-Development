@@ -94,15 +94,17 @@ node_modules is a folder where all the dependencies (packages or modules) requir
 It provides a detailed snapshot of the entire dependency tree, including the specific versions of each installed package and their sub-dependencies. The main purpose of package-lock.json is to ensure consistent installs across different environments by "locking" the dependency versions. It is useful for the local system on which we are making our node application.
 
 # Modules and Its types:
-<br>
+
 <B>Module:</B>
 <br>
 A module in Node.js is a reusable block or self contined block  of code that performs a specific task and can be exported and imported into other files and apllications.In Nodejs every file is treated as a separate module.
 <br>
 
 <b>Types of Modules in Nodejs:</b>
+
 <br>
-<b>1.Core Module</b> => Core Module is also known as Built-in Module.Built-in Modules is provided by Nodejs.No need to install however you need to import Built-in modules in your file or application.
+
+<b>1.Core Module:</b> => Core Module is also known as Built-in Module.Built-in Modules is provided by Nodejs.No need to install however you need to import Built-in modules in your file or application.
 <br>
 Some important core module in Nodejs are:
 
@@ -170,7 +172,9 @@ server.listen(3000);
 
 ```
 <br>
+
 <b>2.Local Module(Usre defined module):</b>
+
 <br>
 A local module is a user-defined module stored as a JavaScript file in the project. It is created by the developer and imported using require("./filename"). Local modules help organize code and make it reusable.
 <br>
@@ -193,7 +197,9 @@ console.log(add(5, 3));     // Output: 8
 
 ```
 <br>
-<b>3. Third Party Module:</b>
+
+<b>3.Third Party Module:</b>
+
 <br>
 A third-party module is a package created by developers (not built into Node.js) and published on npm (Node Package Manager).
 You must install these modules before using them.They add extra features that are not available in core modules.
@@ -256,6 +262,219 @@ example:
 nodemon server.js
 
 ```
+# Load HTML file in node and show Output in browser:
+
+```bash
+
+const http = require('http');
+const fs = require('fs');
+http.createServer((req,res)=>{
+    fs.readFile('html/web.html','utf-8', (err,data)=>{
+        if(err){
+            res.writeHead(500,{'Content-Type':'text/plain'});
+            res.write('internal server error');
+            res.end();
+            return;
+        }
+        res.writeHead(200,{'Content-Type':'text/html'})
+        res.write(data);
+        res.end();
+    })
+}).listen(4300)
+
+```
+# How to Create file and directory with synchronous and Asynchronous way:
+
+```bash
+//Create a File Synchronously
+const fs = require("fs");
+fs.writeFileSync("data.txt", "Hello, this is my file!");       //If the file already exists, it will overwrite it.
+console.log("File created successfully!");
+
+
+//Create a File Without Overwriting (append):
+
+const fs = require("fs");
+fs.appendFileSync("data.txt", "\nNew line added!");
+console.log("Content appended!");
+
+
+//Create Folder + File Synchronously:
+const fs = require("fs");
+fs.mkdirSync("myFolder");                 // create folder
+fs.writeFileSync("myFolder/info.txt", "Some data");   // create file
+
+```
+<br>
+
+<b>Asynchronous Way:</b>
+
+```bash
+To create a file in an async (asynchronous) way in Node.js, you use:
+
+ fs.writeFile() 
+ fs.appendFile()
+ fs.mkdir()
+Async functions always take a callback and do NOT block the program.
+
+
+Example:
+
+const fs = require("fs");
+
+fs.writeFile("data.txt", "Hello async file!", (err) => {
+    if (err) {
+        console.log("Error creating file:", err);
+        return;
+    }
+    console.log("File created asynchronously!");
+});
+
+```
+# Synchronous Programming:
+Synchronous programming is a programming model where tasks are executed one after another, and each task must complete before the next task starts.
+<br>
+In this model, the program waits (blocks) until the current operation finishes.
+<br>
+
+<b>Some Important Points:</b>
+<br>
+1.Code executes line by line.
+<br>
+2.Next line runs only after the previous line completes.
+<br>
+3.Blocking behavior -> stops everything until the task is done.
+
+4.Slow for heavy tasks (file reading, database access, API calls).
+<br>
+
+Example:
+
+```bash
+const fs = require("fs");
+
+console.log("Start");
+
+const data = fs.readFileSync("test.txt", "utf-8");
+console.log(data);
+
+console.log("End");
+
+
+
+                    output of this:
+                      Start
+                      (file is read... program waits)
+                      <file content>
+                       End
+
+```
+<br>
+
+# Asynchronous Programming:
+Asynchronous programming is a programming model where tasks can start and run without waiting for other tasks to finish.
+<br>
+Long-running operations execute in the background, and the program continues with the next instruction.
+<br>
+The result is returned later via callbacks, promises, or async/await.
+<br>
+
+<b>Some Important Points:</b>
+<br>
+1.Code executes without waiting.
+<br>
+2.Long tasks run in background.
+<br>
+3.Results come later via callback, Promise, or async/await.
+<br>
+4.Non-blocking → other code continues running.
+<br>
+5.Faster and better for real-world servers.
+<br>
+
+Example:
+
+```bash
+const fs = require("fs");
+
+console.log("Start");
+
+fs.readFile("test.txt", "utf-8", (err, data) => {
+    console.log(data);
+});
+
+console.log("End");
+                  
+                         output:
+                          Start
+                          End
+                         (file is read... then callback runs)
+                         <file content>
+
+```
+<br>
+
+# Node.js Architecture Diagram(How Nodejs works):
+
+```bash
+
+ ┌────────────────────────┐
+ │   Your JavaScript Code │
+ │  (server.js / app.js)  │
+ └──────────┬─────────────┘
+            │
+            ▼
+ ┌────────────────────────┐
+ │      V8 Engine         │
+ │  (Runs JS line-by-line)│
+ └──────────┬─────────────┘
+            │ Synchronous tasks
+            ▼
+       ┌───────────┐
+       │ Call Stack│
+       └─────┬─────┘
+             │
+             ▼
+   (If task is slow → send to Node APIs)
+             │
+             ▼
+ ┌──────────────────────────┐
+ │      Node.js APIs        │
+ │ (File System, HTTP, DB)  │
+ │      Background threads   │
+ └───────────┬──────────────┘
+             │ Async tasks
+             ▼
+ ┌──────────────────────────┐
+ │        Event Loop         │
+ │ (Checks when JS is free)  │
+ └───────────┬──────────────┘
+             │ Moves callbacks to queue
+             ▼
+ ┌──────────────────────────┐
+ │    Callback/Task Queue    │
+ └───────────┬──────────────┘
+             │
+             ▼
+ ┌──────────────────────────┐
+ │ Back to Call Stack        │
+ │ (Callback executed)       │
+ └──────────────────────────┘
+
+ ```
+
+
+                           
+
+
+
+
+
+
+
+
+
+
 
 
 

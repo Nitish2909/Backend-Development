@@ -1,10 +1,15 @@
 const http = require("http");
 http.createServer((req,res)=>{
-    //console.log(req);
-    if("/")
+    console.log(req.method);
+    if(req.url=="/")
     {
-        res.write("")
+        res.write("<h1>Home Page</h1>");
     }
-    res.write("<h1>Home Page</h1>")
+    else if(req.url=="/Login"){
+      res.write("<h1>Login Page</h1>")
+    }
+    else{
+        res.write("<h1>Others Page</h1>")
+    }
     res.end();
-}).listen(4400)
+}).listen(5500)
