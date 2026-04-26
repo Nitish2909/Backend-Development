@@ -58,7 +58,8 @@ WebSocket is used when you need instant updates (real-time).
 ```
 
 # How WebSocket Works :
-
+ steps:
+ 
 ```bash
 
 step 1.
